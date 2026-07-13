@@ -22,6 +22,7 @@ from sklearn.ensemble import IsolationForest
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import KMeans
 from sklearn.decomposition import PCA
+from pathlib import Path
 
 st.set_page_config(page_title="Sales Forecasting & Demand Intelligence", layout="wide")
 
@@ -29,9 +30,11 @@ st.set_page_config(page_title="Sales Forecasting & Demand Intelligence", layout=
 # --------------------------------------------------------------------------------------
 # Data loading (cached so it only runs once per session)
 # --------------------------------------------------------------------------------------
+BASE_DIR = Path(__file__).resolve().parent
+
 @st.cache_data
 def load_data():
-    df = pd.read_csv("data/train.csv")
+    df = pd.read_csv(BASE_DIR / "data" / "train.csv")
     df["Order Date"] = pd.to_datetime(df["Order Date"], format="%d/%m/%Y")
     df["Ship Date"] = pd.to_datetime(df["Ship Date"], format="%d/%m/%Y")
     df["Year"] = df["Order Date"].dt.year
